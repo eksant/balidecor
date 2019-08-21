@@ -15,4 +15,18 @@ module.exports = [
     enum_value: 'Female',
     enum_order: 2,
   },
+  {
+    id: uuidv4(),
+    enum_category: 'status',
+    enum_key: 'active',
+    enum_value: 'Active',
+    enum_order: 3,
+  },
+  {
+    id: uuidv4(),
+    enum_category: 'status',
+    enum_key: 'disable',
+    enum_value: 'Disable',
+    enum_order: 4,
+  },
 ];
