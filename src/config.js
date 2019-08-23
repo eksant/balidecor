@@ -7,10 +7,10 @@ module.exports = {
   db: {
     client: 'mysql',
     connection: {
-      host: 'xxx.xxx.xxx',
-      user: 'balideco_xxxx',
-      password: 'xxxxxxxxxx$WM',
-      database: 'balideco_xx',
+      host: '139.162.57.73',
+      user: 'balideco_root',
+      password: 'oK57jrCQ6$WM',
+      database: 'balideco_db',
     },
     debug: true,
     pool: { min: 2, max: 100 },

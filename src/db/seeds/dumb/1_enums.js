@@ -1,4 +1,4 @@
-const uuidv4 = require('uuid/v4');
+const uuidv4 = require('uuid/v4')
 
 module.exports = [
   {
@@ -29,4 +29,18 @@ module.exports = [
     enum_value: 'Disable',
     enum_order: 4,
   },
-];
+  {
+    id: uuidv4(),
+    enum_category: 'rules',
+    enum_key: 'admin',
+    enum_value: 'Admin',
+    enum_order: 5,
+  },
+  {
+    id: uuidv4(),
+    enum_category: 'rules',
+    enum_key: 'user',
+    enum_value: 'User',
+    enum_order: 6,
+  },
+]

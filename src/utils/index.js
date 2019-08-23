@@ -1,4 +1,5 @@
-import store from './store'
+import storage from './storage'
+// import knex from './knex'
 import {
   decrypt,
   encrypt,
@@ -13,7 +14,8 @@ import {
 } from './util'
 
 export {
-  store,
+  storage,
+  // knex,
   decrypt,
   encrypt,
   hmacEncrypt,

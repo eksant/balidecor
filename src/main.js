@@ -5,13 +5,13 @@ import App from './App.vue'
 import '@/plugins/antd'
 import router from '@/plugins/router'
 import i18n from '@/plugins/i18n'
-import vuex from '@/plugins/vuex'
+import store from '@/plugins/store'
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
-  vuex,
+  store,
   i18n,
   render: h => h(App),
 }).$mount('#app')

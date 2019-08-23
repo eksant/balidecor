@@ -4,4 +4,4 @@ import services from '@/services'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({ services })
+export default new Vuex.Store(services)

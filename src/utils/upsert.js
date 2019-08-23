@@ -1,23 +1,21 @@
-async function upsert(knex, tableName = '', uniqueKey = '', itemData = []) {
-  const firstObjectIfArray = Array.isArray(itemData) ? itemData[0] : itemData
-  const exclusions = Object.keys(firstObjectIfArray)
-    .filter(c => c !== 'id' && !uniqueKey.includes(c))
-    .map(c => knex.raw('?? = EXCLUDED.??', [c, c]).toString())
-    .join(', ')
+async function upsert(knex, tableName = '', items = []) {
+  return knex.transaction(trx => {
+    const queries = items.map(item => {
+      const insert = trx(tableName)
+        .insert(item)
+        .toString()
+      const update = trx(tableName)
+        .update(item)
+        .toString()
+        .replace(/^update(.*?)set\s/gi, '')
 
-  const insertString = knex(tableName)
-    .insert(itemData)
-    .toString()
+      return trx.raw(`${insert} ON DUPLICATE KEY UPDATE ${update}`).transacting(trx)
+    })
 
-  let conflictString = ''
-  if (exclusions) {
-    conflictString = knex.raw(` ON CONFLICT (??) DO UPDATE SET ${exclusions} RETURNING *;`, uniqueKey).toString()
-  } else {
-    conflictString = ' ON CONFLICT DO NOTHING RETURNING *;'
-  }
-
-  const query = (insertString + conflictString).replace(/\?/g, '\\?')
-  return knex.raw(query)
+    return Promise.all(queries)
+      .then(trx.commit)
+      .catch(trx.rollback)
+  })
 }
 
 module.exports.upsert = upsert

@@ -3,9 +3,9 @@ import mutations from './mutations'
 import actions from './actions'
 
 const services = {
-  states,
-  mutations,
-  actions,
+  state: { ...states },
+  actions: { ...actions },
+  mutations: { ...mutations },
 }
 
 export default services

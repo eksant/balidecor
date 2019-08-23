@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { store } from '@/utils'
+import { storage } from '@/utils'
 import layoutLogin from './login'
 import layoutAdmin from './admin'
 import layoutUser from './user'
@@ -21,13 +21,11 @@ export default {
       rules: null,
     }
   },
-
   created() {
-    const token = store.get('token')
+    const token = storage.get('token')
     if (token) {
+      const rules = storage.get('rules')
       let that = this
-      const rules = store.get('rules')
-
       that.isLoggedIn = true
       that.rules = rules
     }

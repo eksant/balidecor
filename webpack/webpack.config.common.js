@@ -1,5 +1,6 @@
 'use strict'
 
+const webpack = require('webpack')
 const HtmlPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
@@ -18,6 +19,27 @@ const webpackConfig = {
       '@': helpers.root('src'),
     },
   },
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+  },
+  // externals: {
+  //   knex: 'commonjs knex',
+  // },
+  // externals: {
+  //   // Possible drivers for knex - we'll ignore them
+  //   mssql: 'mssql',
+  //   sqlite3: 'sqlite3',
+  //   mysql2: 'mysql2',
+  //   mariasql: 'mariasql',
+  //   // mysql: 'mysql',
+  //   oracle: 'oracle',
+  //   'strong-oracle': 'strong-oracle',
+  //   oracledb: 'oracledb',
+  //   pg: 'pg',
+  //   'pg-query-stream': 'pg-query-stream',
+  // },
   module: {
     rules: [
       {
@@ -76,7 +98,28 @@ const webpackConfig = {
       },
     ],
   },
-  plugins: [new VueLoaderPlugin(), new HtmlPlugin({ template: 'public/index.html', chunksSortMode: 'dependency' })],
+  plugins: [
+    new VueLoaderPlugin(),
+    new HtmlPlugin({ template: 'public/index.html', chunksSortMode: 'dependency' }),
+
+    new webpack.IgnorePlugin(/package\.json/, /mssql/),
+
+    // new webpack.NormalModuleReplacementPlugin(/\.\.\/migrate/, '../util/noop.js'),
+    // new webpack.NormalModuleReplacementPlugin(/\.\.\/seed/, '../util/noop.js'),
+
+    // new webpack.ContextReplacementPlugin(/knex\/lib\/dialects/, /mysql\/index.js/),
+
+    // new webpack.IgnorePlugin(/mariasql/, /knex/),
+    // new webpack.IgnorePlugin(/mssql/, /knex/),
+    // // new webpack.IgnorePlugin(/mysql/, /knex/),
+    // new webpack.IgnorePlugin(/mysql2/, /knex/),
+    // new webpack.IgnorePlugin(/oracle/, /knex/),
+    // new webpack.IgnorePlugin(/oracledb/, /knex/),
+    // new webpack.IgnorePlugin(/pg-query-stream/, /knex/),
+    // new webpack.IgnorePlugin(/sqlite3/, /knex/),
+    // new webpack.IgnorePlugin(/strong-oracle/, /knex/),
+    // new webpack.IgnorePlugin(/pg-native/, /pg/),
+  ],
 }
 
 module.exports = webpackConfig

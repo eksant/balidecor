@@ -2,15 +2,15 @@
   <div class="login-background">
     <a-row type="flex" justify="center" align="middle">
       <a-col>
-        <a-card title="Login" class="login-card">
+        <a-card :title="$t('Login Bali Decor Rental')" class="login-card">
           <a-form :form="form" @submit="handleSubmit">
             <a-form-item>
               <a-input
-                placeholder="Username..."
+                :placeholder="$t('Username...')"
                 v-decorator="[ 'username',
                   {
                     initialValue: 'admin', 
-                    rules: [{ required: true, message: 'Please input your username!' 
+                    rules: [{ required: true, message: $t('Please input Your username!') 
                   }]}
                 ]"
               >
@@ -20,11 +20,11 @@
             <a-form-item>
               <a-input
                 type="password"
-                placeholder="Password..."
+                :placeholder="$t('Password...')"
                 v-decorator="[ 'password',
                   {
                     initialValue: 'P@ssw0rd',
-                    rules: [{ required: true, message: 'Please input your Password!' 
+                    rules: [{ required: true, message: $t('Please input Your Password!' )
                   }]}
                 ]"
               >
@@ -39,10 +39,10 @@
                     initialValue: true,
                   }
                 ]"
-              >Remember me</a-checkbox>
-              <a class="login-form-forgot" href="/">Forgot password</a>
-              <a-button type="primary" html-type="submit" class="login-form-button">Log in</a-button>
-              <a href="/">register now!</a>
+              >{{$t('Remember me')}}</a-checkbox>
+              <a class="login-form-forgot" href="/">{{$t('Forgot password')}}</a>
+              <a-button type="primary" html-type="submit" class="login-form-button">{{$t('Log in')}}</a-button>
+              <a href="/">{{$t('register now!')}}</a>
             </a-form-item>
           </a-form>
         </a-card>
@@ -52,7 +52,10 @@
 </template>
 
 <script>
-import { store } from '@/utils'
+import { storage, encrypt } from '@/utils'
+import knex from 'knex'
+// import mysql from 'serverless-mysql'
+import config from '@/config'
 
 export default {
   beforeCreate() {
@@ -61,12 +64,56 @@ export default {
   methods: {
     handleSubmit(e) {
       e.preventDefault()
-      this.form.validateFields((err, values) => {
+      this.form.validateFields(async (err, values) => {
         if (!err) {
           const { username, password, remember } = values
-          store.set('token', 'fake-token')
-          store.set('rules', username === 'admin' ? 'admin' : 'user')
-          window.location.href = '/'
+          const db = knex(config.db)
+          db.client.transacting = true
+          const results = db('enums')
+            .select()
+            .debug()
+            .then(result => console.log(result))
+            .catch(err => console.log(err))
+
+          // const db = mysql({
+          //   config: {
+          //     host: '139.162.57.73',ˇ
+          //     database: 'balideco_db',
+          //     user: 'balideco_root',
+          //     password: 'oK57jrCQ6$WM',
+          //   },
+          // })
+
+          // let results = await mysql.query('SELECT * FROM enums')
+          // await mysql.end()
+          console.log('====db', results)
+
+          // db.select()
+          //   .from('enums')
+          //   .debug()
+          //   .then(result => {
+          //     console.log('===result', result)
+          //   })
+          //   .catch(err => console.log('ERR', err))
+
+          // this.$store
+          //   .dispatch('authLogin', values)
+          //   .then(result => {
+          //     console.log('==result', result)
+          //   })
+          //   .catch(err => {
+          //     console.log('ERR', err)
+          //   })
+
+          // this.$store.commit('authLogin', values)
+
+          // storage.set('token', 'fake-token')
+          // storage.set('rules', username === 'admin' ? 'admin' : 'user')
+          // if (remember) {
+          //   storage.set('usr', encrypt(username))
+          //   storage.set('pwd', encrypt(password))
+          // }
+          // window.location.href = '/'
           // this.$router.push('/')
         }
       })

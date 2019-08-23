@@ -2,7 +2,7 @@ import CryptoJS from 'crypto-js'
 
 const keySize = 256
 const iterations = 100
-const secretKey = process.env.REACT_APP_SECRET_KEY
+const secretKey = 'oK57jrCQ6$WM-5k#u-9'
 
 export function randomPassword(length = 8) {
   const chars = 'abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890'

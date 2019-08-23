@@ -1,6 +1,6 @@
 import { isObject } from './util'
 
-const store = {
+const storage = {
   name: 'balidecor',
   use,
   get,
@@ -9,7 +9,7 @@ const store = {
   remove,
   clear,
 }
-const storeName = store.name
+const storeName = storage.name
 
 function use(key, value) {
   const result = get(key)
@@ -46,4 +46,4 @@ function clear() {
   return localStorage.clear()
 }
 
-export default store
+export default storage
